@@ -11,11 +11,12 @@ const box = document.getElementById("box");
 
 
 const SearchUser = () => {
+  box.innerHTML = 'loading...'
     const promise = new Promise(() => {
       fetch(`https://api.github.com/users/${userInput.value}`)
-        .then((response) => response.json())
-        .then((response) => {
-            console.log(response)
+      .then((response) => response.json())
+      .then((response) => {
+        console.log(response)
             box.innerHTML = `<img src=${response.avatar_url} class="card-img-top" alt="...">
         <div class="card-body">
           <h5 class="card-title">${response.name}</h5>
