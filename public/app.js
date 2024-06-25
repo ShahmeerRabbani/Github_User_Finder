@@ -1,43 +1,39 @@
-const userInput = document.getElementById("userInput");
-const box = document.getElementById("box");
 
-// const SearchUser = () => {
-//     fetch(`https://api.github.com/users/${userInput.value}`)
-//     .then((response) => response.json())
-//     .then((response) => console.log(response))
-//     .catch((error) => console.log(error))
-// }
-
-
+const userProfile = document.getElementById('userProfile');
+const userInput = document.getElementById('search');
 
 const SearchUser = () => {
-  box.innerHTML = 'loading...'
-    const promise = new Promise(() => {
-      fetch(`https://api.github.com/users/${userInput.value}`)
-      .then((response) => response.json())
-      .then((response) => {
-        console.log(response)
-            box.innerHTML = `<img src=${response.avatar_url} class="card-img-top" alt="...">
-        <div class="card-body">
-          <h5 class="card-title">${response.name}</h5>
-          <p class="card-text">${response.bio}</p>
-        </div>
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item">Company <b> ${response.company} </b></li>
-          <li class="list-group-item">Public repository <b> ${response.public_repos} </b></li>
-          <li class="list-group-item">Followers <b> ${response.followers} </b></li>
-          <li class="list-group-item">Following <b> ${response.following} </b></li>
-          <li class="list-group-item">Email <b>${response.email} </b></li>
-          <li class="list-group-item">Twitter <b> ${response.twitter_username} </b></li>
-        </ul>
-        <div class="card-body">
-          <a href=${response.blog} class="card-link" target = 'blank'>Blog</a>
-          <a href=${response.html_url} class="card-link" target = 'blank'>Github Page</a>
-        </div>`
-        })
-        .catch((error) => console.log(error));
-    });
-    
-    // promise.then((res) => console.log(res)).catch((err) => console.log(err));
+  userProfile.innerHTML = 'loading...';
+  
+  const promise = new Promise(() => {
+    fetch(`https://api.github.com/users/${userInput.value}`)
+    .then((response) => response.json())
+    .then((response) => {
+      console.log(response)
+     const userBox = `
+               <div class="user-box">
+                   <div>
+                       <a href="${response.html_url}" target="_blank">
+                           <img class="avatar" src="${response.avatar_url}" alt="${response.name}">
+                       </a>
+                   </div>
+                   <div class="user-info">
+                       <h2>${response.name}</h2>
+                       <div class="user-bio">
+                           <p>${response.bio}</p>
+                           <a href="${response.html_url}" target="_blank">View Profile</a>
+                       </div>
+                       <ul class="meta-data">
+                           <li>${response.followers} <strong>Followers</strong></li>
+                           <li>${response.following} <strong>Following</strong></li>
+                           <li>${response.public_repos} <strong>Repos</strong></li>
+                       </ul>
+                   </div>
+               </div>
+           `;
+           userProfile.innerHTML = userBox;
+    })
+    .catch((error) => console.log(error))
+  })
+  promise.then((res) => console.log(res)).catch((err) => console.log(err))
 }
-
